@@ -45,12 +45,17 @@ function getTweets() {
 
 // ======================= Spotify spotify-this-song ============================
 
-function getSpotify () {
+function getSpotify(song) {
 
     var spotify = new Spotify(keys.spotify);
     //set a var for the paramaters songs we pass in gitbash & joined the multi-word titled songs .slice & .join
-    var searchParam = process.argv.slice(3).join("+") ;
+    var searchParam
 
+    if (song) {
+       searchParam = song 
+    }else {
+       searchParam = process.argv.slice(3).join("+") ;        
+    }
     //if no song is entered then use this defualt song 
     if(process.argv[3] = null) {
         console.log("The Sign");
@@ -111,14 +116,13 @@ function searchMovie(searchValue) {
 // xxxxxxxxxxxxxxxxxx Random do-what-it-says xxxxxxxxxxxxxxxxxxxxxx
 function randomSearch() {
 
-    fs.readFile("random.txt", "utf8", function(respError, data) {
+    fs.readFile("./random.txt", "utf8", function(respError, data) {
+        var randomArray = data.split(",");
 
-        var randomArray = (" ");
-
-        errorFunction();
+        //errorFunction();
 
         if (randomArray[0] == "spotify-this-song") {
-            searchSong(randomArray[1]);
+            getSpotify(randomArray[1]);
         } else if (randomArray[0] == "movie-this") {
             searchMovie(randomArray[1]);
         } else {
